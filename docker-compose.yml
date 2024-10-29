@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: price_tracker
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: nestjs_app_container
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: your_password
+      DB_NAME: price_tracker
+      MORALIS_API_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjNjZmMzOTcwLTA4YjctNDAxOC04Nzg3LTM5MTY4YTNiYjZkZCIsIm9yZ0lkIjoiNDEzNjg5IiwidXNlcklkIjoiNDI1MTM5IiwidHlwZUlkIjoiYmFkNWQ2MDEtOTAxMS00ZjhjLTkwYWYtNDA2ZWJhYWMzNTYwIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MzAxMjg5NDcsImV4cCI6NDg4NTg4ODk0N30.78UaaoX_ocDIeltiNM62xELc1qtu_85cLFVFMoNGq_g
+      EMAIL_USER: bboogybenn@gmail.com
+      EMAIL_PASS: riet ehes boeo epyh
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+
+volumes:
+  db-data:
