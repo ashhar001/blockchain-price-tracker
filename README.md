@@ -93,74 +93,7 @@ Navigate to `http://localhost:3000/api` to see all available endpoints, includin
 
 ### Step 7: Running the Application with Docker
 
-To containerize the application and database:
-
-1. **Create a Dockerfile**
-
-   ```dockerfile
-   # Use an official Node.js runtime as a base image
-   FROM node:14
-
-   # Set the working directory
-   WORKDIR /app
-
-   # Copy package.json and package-lock.json
-   COPY package*.json ./
-
-   # Install dependencies
-   RUN npm install
-
-   # Copy the rest of the application code
-   COPY . .
-
-   # Build the NestJS application
-   RUN npm run build
-
-   # Expose port 3000
-   EXPOSE 3000
-
-   # Start the application
-   CMD ["npm", "run", "start:prod"]
-   ```
-
-2. **Create a Docker Compose File (`docker-compose.yml`)**
-
-   ```yaml
-   version: '3.8'
-
-   services:
-     db:
-       image: postgres:13
-       environment:
-         POSTGRES_USER: postgres
-         POSTGRES_PASSWORD: your_password
-         POSTGRES_DB: price_tracker
-       ports:
-         - '5432:5432'
-       volumes:
-         - db-data:/var/lib/postgresql/data
-
-     app:
-       build: .
-       environment:
-         DB_HOST: db
-         DB_PORT: 5432
-         DB_USER: postgres
-         DB_PASSWORD: your_password
-         DB_NAME: price_tracker
-         MORALIS_API_KEY: your_moralis_api_key
-         EMAIL_USER: your-email@gmail.com
-         EMAIL_PASS: your-email-password
-       ports:
-         - '3000:3000'
-       depends_on:
-         - db
-
-   volumes:
-     db-data:
-   ```
-
-3. **Build and Run Docker Containers**
+**Build and Run Docker Containers**
 
    ```bash
    $ docker-compose up --build
